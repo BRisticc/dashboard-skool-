@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profitable Media — The Skool Backend Pipeline System</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAF7;
+  --ink: #141311;
+  --ink2: #3d3d38;
+  --mute: #7a786f;
+  --sand: #E8E6DF;
+  --cream: #F1EFE8;
+  --green: #0B5D47;
+  --green-l: #D6F0E5;
+  --green-d: #073D2F;
+  --green-x: #05291F;
+  --coral: #C4441A;
+  --coral-l: #FBE9E0;
+  --amber: #8B5A0B;
+  --amber-l: #FDF2DC;
+  --red: #922626;
+  --red-l: #FCE8E8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+
+.serif{font-family:'Instrument Serif',serif;font-weight:400}
+.container{max-width:760px;margin:0 auto;padding:0 24px}
+.highlight{background:linear-gradient(180deg,transparent 60%,rgba(11,93,71,0.13) 60%);display:inline;padding:0 2px}
+.highlight-coral{background:linear-gradient(180deg,transparent 60%,rgba(196,68,26,0.12) 60%);display:inline;padding:0 2px}
+mark{background:var(--green-l);color:var(--green);padding:2px 6px;border-radius:3px;font-weight:700}
+
+.hero{
+  min-height:92vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:48px 24px 40px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;
+  top:-200px;left:50%;transform:translateX(-50%);
+  width:1000px;height:1000px;
+  background:radial-gradient(circle,rgba(11,93,71,0.05) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-inner{max-width:680px;position:relative;z-index:1}
+
+.hero-proof-bar{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#fff;border:1px solid var(--sand);
+  border-radius:40px;padding:6px 18px 6px 8px;
+  font-size:13px;color:var(--ink2);
+  margin-bottom:32px;
+}
+.hero-proof-bar .stars{color:#E8A800;font-size:15px;letter-spacing:-1px}
+.hero-proof-bar strong{color:var(--ink);font-weight:700}
+
+.hero h1{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(34px,6.2vw,58px);
+  line-height:1.08;font-weight:400;
+  margin-bottom:24px;
+}
+.hero h1 em{font-style:italic;color:var(--green)}
+
+.hero-sub{
+  font-size:18px;line-height:1.65;color:var(--ink2);
+  max-width:540px;margin:0 auto 32px;
+}
+
+.cta-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--green);color:#fff;
+  padding:18px 36px;border-radius:10px;
+  font-family:'Manrope',sans-serif;
+  font-size:17px;font-weight:700;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:background 0.2s,transform 0.1s;
+}
+.cta-btn:hover{background:var(--green-d)}
+.cta-btn:active{transform:scale(0.98)}
+.cta-btn .arrow{font-size:20px;transition:transform 0.2s}
+.cta-btn:hover .arrow{transform:translateX(3px)}
+.cta-note{font-size:13px;color:var(--mute);margin-top:10px}
+
+.trust-bar{
+  display:flex;justify-content:center;align-items:center;gap:32px;
+  margin-top:40px;flex-wrap:wrap;
+  font-size:13px;color:var(--mute);
+}
+.trust-bar .stat{display:flex;align-items:center;gap:6px}
+.trust-bar strong{color:var(--ink);font-weight:800;font-size:15px}
+
+.section{padding:72px 24px}
+.section.alt{background:var(--cream)}
+.section.dark{background:var(--ink);color:#f5f5f0}
+.section.green{background:var(--green);color:#fff}
+
+.section-label{
+  font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--green);margin-bottom:10px;
+}
+.section.dark .section-label,.section.green .section-label{color:#7ACBAE}
+
+.section h2{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(26px,4vw,40px);
+  font-weight:400;line-height:1.15;
+  margin-bottom:16px;max-width:580px;
+}
+.section.dark h2,.section.green h2{color:#fff}
+.section p.lead{font-size:16px;line-height:1.7;color:var(--ink2);max-width:580px;margin-bottom:28px}
+.section.dark p.lead{color:rgba(255,255,255,0.65)}
+
+.pain-list{max-width:580px;margin-bottom:28px}
+.pain-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 0;border-bottom:1px solid var(--sand);
+}
+.pain-item:last-child{border:none}
+.pain-icon{
+  flex-shrink:0;width:28px;height:28px;border-radius:50%;
+  background:var(--coral-l);color:var(--coral);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;
+}
+.pain-item h3{font-size:15px;font-weight:700;margin-bottom:3px}
+.pain-item p{font-size:14px;color:var(--mute);line-height:1.5}
+
+.agitate-box{
+  max-width:580px;
+  background:var(--coral-l);border:1px solid rgba(196,68,26,0.15);
+  border-radius:12px;padding:24px;margin-bottom:28px;
+}
+.agitate-box h3{font-size:17px;font-weight:700;color:var(--coral);margin-bottom:12px}
+.agitate-row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px;color:var(--ink2)}
+.agitate-row .num{font-weight:700;color:var(--coral);font-variant-numeric:tabular-nums}
+.agitate-total{
+  display:flex;justify-content:space-between;
+  padding:12px 0 0;margin-top:8px;
+  border-top:2px solid var(--coral);
+  font-size:17px;font-weight:800;color:var(--coral);
+}
+
+.deliver-list{max-width:580px}
+.deliver-item{
+  display:flex;gap:16px;align-items:flex-start;
+  padding:20px 0;border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.deliver-item:last-child{border:none}
+.deliver-num{
+  flex-shrink:0;width:36px;height:36px;border-radius:8px;
+  background:rgba(122,203,174,0.15);color:#7ACBAE;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:800;
+}
+.deliver-item h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.deliver-item p{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.55}
+
+.proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:600px}
+@media(max-width:580px){.proof-grid{grid-template-columns:1fr}}
+.proof-card{background:#fff;border:1px solid var(--sand);border-radius:14px;overflow:hidden;}
+.proof-video{position:relative;width:100%;padding-bottom:56.25%;background:var(--ink);}
+.proof-video .placeholder{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--green-d),var(--green-x));
+  color:rgba(255,255,255,0.4);font-size:13px;gap:8px;
+}
+.proof-video .placeholder .play-icon{
+  width:48px;height:48px;border-radius:50%;
+  border:2px solid rgba(255,255,255,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:rgba(255,255,255,0.5);
+}
+.proof-body{padding:16px}
+.proof-body .stars{color:#E8A800;font-size:13px;letter-spacing:-1px;margin-bottom:6px}
+.proof-body blockquote{font-size:14px;font-weight:600;line-height:1.5;color:var(--ink);margin-bottom:10px;font-style:normal;}
+.proof-body .who{display:flex;align-items:center;gap:10px}
+.proof-body .avatar{width:36px;height:36px;border-radius:50%;background:var(--green-l);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+.proof-body .name{font-size:13px;font-weight:600}
+.proof-body .role{font-size:12px;color:var(--mute)}
+
+.bonus-list{max-width:580px}
+.bonus-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 20px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;margin-bottom:8px;
+}
+.bonus-item h4{font-size:14px;font-weight:600;color:#fff;margin-bottom:2px}
+.bonus-item p{font-size:12px;color:rgba(255,255,255,0.4)}
+.bonus-item .val{font-size:14px;font-weight:700;color:#7ACBAE;white-space:nowrap}
+.bonus-total{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 20px;margin-top:4px;
+  background:rgba(122,203,174,0.1);
+  border:1px solid rgba(122,203,174,0.25);
+  border-radius:10px;
+}
+.bonus-total h4{font-size:16px;font-weight:700;color:#7ACBAE}
+.bonus-total .val{font-size:20px;font-weight:800;color:#fff}
+
+.guarantee-card{
+  max-width:580px;margin:0 auto;
+  background:var(--green-l);border:2px solid var(--green);
+  border-radius:16px;padding:36px;text-align:center;
+}
+.guarantee-card h3{font-family:'Instrument Serif',serif;font-size:24px;font-weight:400;color:var(--green-d);margin-bottom:12px;}
+.guarantee-card p{font-size:15px;color:var(--green);line-height:1.6}
+.guarantee-sub{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;max-width:580px;}
+@media(max-width:500px){.guarantee-sub{grid-template-columns:1fr}}
+.guarantee-mini{background:#fff;border:1px solid var(--sand);border-radius:10px;padding:18px;text-align:center;}
+.guarantee-mini h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.guarantee-mini p{font-size:12px;color:var(--mute);line-height:1.5}
+
+.pricing-card{
+  max-width:580px;margin:0 auto;
+  background:#fff;border:2px solid var(--green);
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 32px 80px rgba(11,93,71,0.08);
+}
+.pricing-head{background:linear-gradient(135deg,var(--green) 0%,var(--green-d) 100%);color:#fff;padding:28px 32px;}
+.pricing-head h3{font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;margin-bottom:6px}
+.pricing-head p{font-size:14px;color:rgba(255,255,255,0.65);line-height:1.5}
+.pricing-body{padding:32px}
+.price-flex{display:flex;gap:28px;margin-bottom:24px;flex-wrap:wrap}
+.price-block .amount{font-size:38px;font-weight:800;color:var(--ink)}
+.price-block .amount span{font-size:18px;font-weight:500}
+.price-block .freq{font-size:13px;color:var(--mute);margin-top:2px}
+.includes-list{list-style:none;padding:0;margin-bottom:28px}
+.includes-list li{padding:9px 0;font-size:14px;color:var(--ink2);display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--cream);}
+.includes-list li:last-child{border:none}
+.includes-list .ck{color:var(--green);font-weight:800;flex-shrink:0;font-size:15px}
+
+.scarcity{
+  display:flex;align-items:center;gap:12px;
+  max-width:580px;margin:28px auto 0;
+  background:var(--amber-l);border:1px solid rgba(139,90,11,0.15);
+  border-radius:10px;padding:16px 20px;
+}
+.scarcity .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+.scarcity p{font-size:14px;color:var(--amber);font-weight:600}
+
+.fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:580px}
+@media(max-width:500px){.fit-grid{grid-template-columns:1fr}}
+.fit-card{padding:20px;border-radius:12px}
+.fit-card.yes{background:var(--green-l);border:1px solid rgba(11,93,71,0.12)}
+.fit-card.no{background:var(--red-l);border:1px solid rgba(146,38,38,0.08)}
+.fit-card h4{font-size:14px;font-weight:700;margin-bottom:10px}
+.fit-card.yes h4{color:var(--green)}
+.fit-card.no h4{color:var(--red)}
+.fit-card ul{list-style:none;padding:0}
+.fit-card ul li{font-size:13px;padding:4px 0;color:var(--ink2);padding-left:18px;position:relative}
+.fit-card.yes ul li::before{content:"→";position:absolute;left:0;color:var(--green);font-weight:700}
+.fit-card.no ul li::before{content:"×";position:absolute;left:1px;color:var(--red);font-weight:700}
+
+.faq-list{max-width:580px}
+.faq-item{border-bottom:1px solid var(--sand)}
+.faq-q{padding:18px 0;font-size:15px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+.faq-q::after{content:'+';font-size:22px;color:var(--mute);transition:transform 0.2s;font-weight:400}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{display:none;padding:0 0 18px;font-size:14px;color:var(--ink2);line-height:1.7}
+.faq-item.open .faq-a{display:block}
+
+.final-cta{
+  text-align:center;padding:80px 24px;
+  background:linear-gradient(180deg,var(--bg) 0%,var(--green-l) 100%);
+}
+.final-cta h2{font-family:'Instrument Serif',serif;font-size:clamp(26px,4.5vw,42px);font-weight:400;margin-bottom:16px;max-width:520px;margin-left:auto;margin-right:auto;}
+.final-cta p{font-size:16px;color:var(--ink2);max-width:460px;margin:0 auto 28px;line-height:1.6}
+
+.footer{text-align:center;padding:28px 24px;font-size:12px;color:var(--mute);border-top:1px solid var(--sand)}
+
+@media(max-width:580px){
+  .hero{min-height:auto;padding:48px 20px 36px}
+  .section{padding:48px 20px}
+  .price-flex{flex-direction:column;gap:12px}
+  .trust-bar{flex-direction:column;gap:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+
+    <div class="hero-proof-bar">
+      <span class="stars">★★★★★</span>
+      <span>Trusted by membership owners generating <strong>$1.1B+</strong> in revenue</span>
+    </div>
+
+    <h1>Your free Skool community is <em>leaking backend revenue</em> every month.<br>We show you exactly who's ready to buy.</h1>
+
+    <p class="hero-sub">You built a community full of people who <span class="highlight">trust you completely</span>. But you have no signal for who's ready for your coaching, course, or mastermind. So you pitch everyone, convert almost no one, and <span class="highlight">watch your hottest prospects go cold</span> before you ever reach them.</p>
+
+    <a href="#pricing" class="cta-btn">Get Your Free Pipeline Audit <span class="arrow">→</span></a>
+    <p class="cta-note">No commitment. No credit card. 15-min Loom delivered within 48 hours.</p>
+
+    <div class="trust-bar">
+      <div class="stat"><strong>17+</strong> years building revenue systems</div>
+      <div class="stat"><strong>$1.1B+</strong> revenue generated for clients</div>
+      <div class="stat"><strong>48h</strong> to full deployment</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROBLEM ════════════════════════════════════════════════ -->
+<div class="section alt">
+  <div class="container">
+    <div class="section-label">The problem nobody talks about</div>
+    <h2 class="serif">Skool gives you the audience.<br>It doesn't give you the <em style="font-style:italic;color:var(--coral)">signal to know who's ready</em>.</h2>
+    <p class="lead">You have <strong>hundreds of free members who already trust you</strong> — and 95%+ of them will never buy unless you reach them at the exact right moment. The problem is you have no way to know when that moment is.</p>
+
+    <div class="pain-list">
+      <div class="pain-item">
+        <div class="pain-icon">1</div>
+        <div>
+          <h3>You're pitching everyone — and converting almost no one</h3>
+          <p>Without behavioral data, every offer goes to every member at the same time. People who aren't ready feel pressured and go cold. People who are ready never get a personal invitation. Your conversion rate reflects the guesswork — not your offer quality.</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">2</div>
+        <div>
+          <h3>Your warmest prospects go cold before you reach them</h3>
+          <p>Someone watches three of your lessons, downloads your PDF, shows up to your live call — they're ready right now. But you don't know. Two weeks later when you finally DM them, the moment has passed. They've moved on or bought from someone else.</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">3</div>
+        <div>
+          <h3>Manual outreach burns hours with no reliable signal</h3>
+          <p>DMing based on gut feel. Inviting everyone to a strategy call whether they're ready or not. Posting offers and hoping someone raises their hand. You're working hard — but without signal, most of the effort misses. At 500+ members, you can't read every person manually.</p>
+        </div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-icon">4</div>
+        <div>
+          <h3>Skool tracks engagement — but won't tell you who's ready to buy</h3>
+          <p>Skool's dashboard shows you leaderboard points and aggregate stats. It does not show you who watched your video twice, who downloaded your checklist, who clicked your booking link but didn't follow through. That behavioral intent data doesn't exist in Skool. We build the layer that creates it.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="agitate-box">
+      <h3>Here's what a 500-member free community leaks every month</h3>
+      <div class="agitate-row"><span>Warm prospects missed (no scoring system, 500 members)</span><span class="num">−8 calls/mo</span></div>
+      <div class="agitate-row"><span>Lost backend revenue (30% close × $3K offer)</span><span class="num">−$7,200/mo</span></div>
+      <div class="agitate-row"><span>Hours on manual cold outreach with no behavioral signal</span><span class="num">−15h/mo</span></div>
+      <div class="agitate-row"><span>Prospects who bought from competitors while you waited</span><span class="num">untracked</span></div>
+      <div class="agitate-total"><span>Conservative annual backend pipeline leak</span><span>−$86,400+/yr</span></div>
+    </div>
+
+    <p style="font-size:13px;color:var(--mute);max-width:480px">Based on 500 free members, $3K backend offer, 30% close rate on warm calls. <strong style="color:var(--ink)">We calculate your exact number in the free audit.</strong></p>
+  </div>
+</div>
+
+<!-- ══ SOLUTION ═══════════════════════════════════════════════ -->
+<div class="section dark">
+  <div class="container">
+    <div class="section-label">The solution</div>
+    <h2 class="serif">Everything we build, deploy, and manage — <em style="font-style:italic;color:#7ACBAE">so you always know who's ready</em></h2>
+    <p class="lead">One engagement. One system. Deployed in 48 hours. You give us 30 minutes and your credentials — we build everything while you go coach your members. <strong style="color:#fff">At 500+ free members, every week without this system is another week your warmest prospects go cold.</strong></p>
+
+    <div class="deliver-list">
+      <div class="deliver-item">
+        <div class="deliver-num">1</div>
+        <div>
+          <h3>We watch what your members actually do</h3>
+          <p>Who watched your video three times. Who downloaded your checklist. Who showed up to your live call. Who clicked your offer link but didn't book. We track every signal — silently, automatically — so you always know who's engaged and who's drifting.</p>
+        </div>
+      </div>
+      <div class="deliver-item">
+        <div class="deliver-num">2</div>
+        <div>
+          <h3>We tell you exactly who is ready right now</h3>
+          <p>Every member gets a readiness score based on what they've actually done — not what they said in a survey. When someone crosses the threshold, you know before they do. No gut feel. No guessing. A ranked list of your warmest prospects, updated in real time.</p>
+        </div>
+      </div>
+      <div class="deliver-item">
+        <div class="deliver-num">3</div>
+        <div>
+          <h3>We reach them while they're warm — automatically</h3>
+          <p>The moment a member is ready, a personalized invitation goes out automatically. Book a call, unlock your program, apply for your mastermind — whatever your offer requires. They hear from you at peak interest. Not three weeks later when the moment has passed.</p>
+        </div>
+      </div>
+      <div class="deliver-item">
+        <div class="deliver-num">4</div>
+        <div>
+          <h3>You see the whole pipeline in one place</h3>
+          <p>One dashboard. Every free member, their engagement history, where they are in the pipeline, and whether the invitation has been sent. You open it once a week. You know exactly what's happening. No spreadsheets, no manual tracking, no surprises.</p>
+        </div>
+      </div>
+      <div class="deliver-item">
+        <div class="deliver-num">5</div>
+        <div>
+          <h3>We optimize it every month so it gets smarter</h3>
+          <p>Every month we review who converted and who didn't — and recalibrate accordingly. The system learns your community's specific behavior over time. Month three outperforms month one. Month six outperforms month three. It compounds.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SOCIAL PROOF ═══════════════════════════════════════════ -->
+<div class="section alt">
+  <div class="container">
+    <div class="section-label">Don't take our word for it</div>
+    <h2 class="serif">Real results from <span class="highlight">real community owners</span></h2>
+    <p class="lead">Free community owners who were showing up every week, delivering value — but had no signal for who was ready to buy. Here's what changed when we plugged the pipeline leak.</p>
+
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="proof-video">
+          <div class="placeholder">
+            <div class="play-icon">▶</div>
+            <span>Video testimonial 1</span>
+          </div>
+        </div>
+        <div class="proof-body">
+          <div class="stars">★★★★★</div>
+          <blockquote>"I had 600 free members and was manually DMing 10 people a week based on gut feel. First month with the system — 23 warm prospects identified, 6 closed into my $4K program."</blockquote>
+          <div class="who">
+            <div class="avatar">JM</div>
+            <div>
+              <div class="name">Client Name</div>
+              <div class="role">Free Skool Community · Business Coaching</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proof-card">
+        <div class="proof-video">
+          <div class="placeholder">
+            <div class="play-icon">▶</div>
+            <span>Video testimonial 2</span>
+          </div>
+        </div>
+        <div class="proof-body">
+          <div class="stars">★★★★★</div>
+          <blockquote>"The calls are completely different now. These people already know my content, already trust me. I'm not qualifying from scratch. My close rate almost doubled in the first 60 days."</blockquote>
+          <div class="who">
+            <div class="avatar">SK</div>
+            <div>
+              <div class="name">Client Name</div>
+              <div class="role">Free Skool Community · Fitness & Mindset</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BONUS STACK ════════════════════════════════════════════ -->
+<div class="section dark">
+  <div class="container">
+    <div class="section-label">Included free — not upsells</div>
+    <h2 class="serif">Six bonuses worth more than the <em style="font-style:italic;color:#7ACBAE">entire first year</em></h2>
+    <p class="lead">Every bonus removes a specific obstacle between you and your first warm backend conversation.</p>
+
+    <div class="bonus-list">
+      <div class="bonus-item">
+        <div><h4>Backend pipeline audit</h4><p>15-min Loom showing your exact signal gap and pipeline leak — before you pay a cent</p></div>
+        <div class="val">$500</div>
+      </div>
+      <div class="bonus-item">
+        <div><h4>Booking invitation copy (3 templates)</h4><p>Personalized GHL sequences for coaching, course unlocks, and mastermind applications</p></div>
+        <div class="val">$600</div>
+      </div>
+      <div class="bonus-item">
+        <div><h4>Email capture pipeline</h4><p>Every free member's email captured and synced to your CRM from day 1 — no one falls through the cracks</p></div>
+        <div class="val">$400</div>
+      </div>
+      <div class="bonus-item">
+        <div><h4>Warm-up content mapping</h4><p>We map your 5 highest-signal assets to your backend offer — so every piece of content you share builds pipeline</p></div>
+        <div class="val">$700</div>
+      </div>
+      <div class="bonus-item">
+        <div><h4>Platform insurance</h4><p>Any Skool or GHL change — fixed within 24 hours, included in your subscription every month</p></div>
+        <div class="val">$1,200/yr</div>
+      </div>
+      <div class="bonus-item">
+        <div><h4>Quarterly scoring recalibration</h4><p>Every 90 days we optimize thresholds from your actual conversion data — system gets smarter every quarter</p></div>
+        <div class="val">$2,000/yr</div>
+      </div>
+      <div class="bonus-total">
+        <h4>Total bonus value</h4>
+        <div class="val">$5,400+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GUARANTEE ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="container" style="display:flex;flex-direction:column;align-items:center">
+    <div class="section-label" style="text-align:center">Zero risk</div>
+    <h2 class="serif" style="text-align:center;max-width:460px">We take <em style="font-style:italic;color:var(--green)">all the risk</em>.<br>You take all the upside.</h2>
+    <p class="lead" style="text-align:center;max-width:500px">If our system can't fill your pipeline, we shouldn't get paid. Three guarantees. Stacked.</p>
+
+    <div class="guarantee-card">
+      <h3>The 30-Day Pipeline Guarantee</h3>
+      <p>If our system does not deliver at least <strong>3 qualified backend conversations in your first 30 days</strong> — we refund every cent and you keep the system. No questions asked. One extra backend client per month covers the entire year. If we can't deliver 3 conversations in 30 days, we don't deserve your money.</p>
+    </div>
+
+    <div class="guarantee-sub">
+      <div class="guarantee-mini">
+        <h4>48-hour deployment</h4>
+        <p>System live within 48 hours of kickoff or your first month is free.</p>
+      </div>
+      <div class="guarantee-mini">
+        <h4>24-hour fix</h4>
+        <p>Any system issue resolved within 24 hours or that month's subscription is credited in full.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ROI MATH ════════════════════════════════════════════════ -->
+<div class="section alt">
+  <div class="container">
+    <div class="section-label">The math</div>
+    <h2 class="serif">Your ROI before you buy</h2>
+    <p class="lead">Conservative projections. 500 free members, $3K backend offer, 30% close rate on warm calls. <strong>Your actual results compound monthly — scored members keep warming up, and every conversation you close pays for months of the system.</strong></p>
+
+    <div style="max-width:580px;background:#fff;border:1px solid var(--sand);border-radius:12px;overflow:hidden">
+      <div style="background:var(--green);color:#fff;padding:14px 24px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase">30-day conservative projection · 500 free members · $3K backend offer</div>
+      <div style="padding:4px 0">
+        <div class="agitate-row" style="padding:12px 24px;border-bottom:1px solid var(--cream)"><span>Additional warm prospects identified by scoring/mo</span><span class="num" style="color:var(--green)">+8 prospects</span></div>
+        <div class="agitate-row" style="padding:12px 24px;border-bottom:1px solid var(--cream)"><span>Close rate on pre-qualified warm conversations</span><span class="num" style="color:var(--green)">30–40%</span></div>
+        <div class="agitate-row" style="padding:12px 24px;border-bottom:1px solid var(--cream)"><span>New backend clients per month</span><span class="num" style="color:var(--green)">2–3 clients</span></div>
+        <div class="agitate-row" style="padding:12px 24px;border-bottom:1px solid var(--cream);font-weight:700"><span>Monthly revenue impact</span><span class="num" style="color:var(--green);font-size:17px">$6,000–$9,000/mo</span></div>
+        <div class="agitate-row" style="padding:12px 24px;border-bottom:1px solid var(--cream)"><span>System cost</span><span class="num" style="color:var(--green)">$297/mo</span></div>
+      </div>
+      <div style="background:var(--green);color:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;font-weight:700">
+        <span>Gain / Pain ratio</span>
+        <span style="font-size:20px">20:1 → 30:1</span>
+      </div>
+    </div>
+
+    <p style="font-size:13px;color:var(--mute);max-width:500px;margin-top:14px">One extra backend client per month covers <strong style="color:var(--green)">10 months of the system</strong>. The math gets better every month as scoring learns your community's behavior and warm prospects compound.</p>
+  </div>
+</div>
+
+<!-- ══ PRICING ════════════════════════════════════════════════ -->
+<div class="section" id="pricing">
+  <div class="container" style="display:flex;flex-direction:column;align-items:center">
+    <div class="section-label" style="text-align:center">One offer — no setup fee, no contracts</div>
+    <h2 class="serif" style="text-align:center;max-width:500px">$297/month. <span class="highlight">One extra backend client covers the year.</span></h2>
+
+    <div class="pricing-card">
+      <div class="pricing-head">
+        <h3>The Skool Backend Pipeline System</h3>
+        <p>Behavioral scoring + automated backend invitations + per-member intent dashboard. Deployed in 48h. Triple guaranteed.</p>
+      </div>
+      <div class="pricing-body">
+        <div class="price-flex">
+          <div class="price-block">
+            <div class="amount">$297<span>/mo</span></div>
+            <div class="freq">Free 14-day trial · No credit card</div>
+          </div>
+        </div>
+        <ul class="includes-list">
+          <li><span class="ck">✓</span>Full system deployment in 48h — you give us API key + 30 minutes</li>
+          <li><span class="ck">✓</span>Behavioral scoring engine — 6 signal types tracked automatically</li>
+          <li><span class="ck">✓</span>UTM delivery infrastructure for all content types</li>
+          <li><span class="ck">✓</span>Automated GHL invitation sequences (call, course, mastermind)</li>
+          <li><span class="ck">✓</span>Per-member intent dashboard — ranked by backend readiness</li>
+          <li><span class="ck">✓</span>Monthly scoring recalibration from your real conversion data</li>
+          <li><span class="ck">✓</span>Platform insurance — any change fixed within 24h</li>
+          <li><span class="ck">✓</span>All 6 bonuses included <mark>$5,400+ value</mark></li>
+          <li><span class="ck">✓</span>Triple guarantee: 30-day pipeline · 48h deploy · 24hr fix</li>
+        </ul>
+        <a href="#" class="cta-btn" style="display:flex;justify-content:center;width:100%;font-size:18px;padding:20px;text-decoration:none">Start Your Free 14-Day Trial <span class="arrow">→</span></a>
+        <p class="cta-note" style="text-align:center;margin-top:10px">No commitment. No credit card. First warm conversations typically within 7–10 days.</p>
+      </div>
+    </div>
+
+    <div class="scarcity">
+      <div class="dot"></div>
+      <p>Beta pricing closes at 20 clients — 6 spots remaining at $297/mo.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WHO THIS IS FOR ════════════════════════════════════════ -->
+<div class="section alt">
+  <div class="container">
+    <div class="section-label">Is this for you?</div>
+    <h2 class="serif">Built for free community owners with a real backend offer</h2>
+    <p class="lead">We work with coaches, course creators, and consultants who have built a genuine audience — and are ready to convert it into a predictable backend pipeline.</p>
+
+    <div class="fit-grid">
+      <div class="fit-card yes">
+        <h4>This is for you if</h4>
+        <ul>
+          <li>Free Skool community with 200+ members</li>
+          <li>Backend offer of $500 or more</li>
+          <li>Currently converting via calls, DMs, or webinars</li>
+          <li>Want to know who's ready before you pitch</li>
+          <li>Spending 5+ hours/week on manual outreach</li>
+          <li>Coach, creator, or consultant — not a developer</li>
+          <li>Ready to let behavioral data replace gut feel</li>
+        </ul>
+      </div>
+      <div class="fit-card no">
+        <h4>Not for you if</h4>
+        <ul>
+          <li>No backend offer validated yet</li>
+          <li>Under 100 free members</li>
+          <li>Looking for a DIY template or cheap fix</li>
+          <li>Not sharing content your members consume</li>
+          <li>Expecting results without showing up for community</li>
+          <li>Backend offer under $500</li>
+          <li>Want a magic button with zero involvement</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FAQ ════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="container">
+    <div class="section-label">Questions before you decide</div>
+    <h2 class="serif">Frequently asked</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How long until I see results?</div>
+        <div class="faq-a">System is live within 48 hours. Scores start populating immediately as members interact with your content. First automated invitations typically fire within 7–10 days. First qualified conversations in week 2 for most clients. Full compounding effect at 60–90 days as the system learns your community's specific behavior patterns.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What if my backend offer is a course unlock or program — not a call?</div>
+        <div class="faq-a">The system works for any backend action — booking a call, unlocking a course, applying for a program, accessing a waitlist, or purchasing directly. We configure the GHL sequence to match your exact conversion flow. You tell us what you want members to do when they're ready — we trigger it automatically at the right moment.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What do I actually need to do?</div>
+        <div class="faq-a">Give us your API key and 30 minutes on a kickoff call. We build, test, and deploy everything. After that: share your resources using the tracking links we give you — same as any other link in your community — and check your dashboard once a week. Your ongoing time commitment is about 30 minutes per week.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Does this violate Skool's terms of service?</div>
+        <div class="faq-a">No. We do not access Skool's platform, scrape any data, or use unofficial APIs. All tracking happens on delivery pages we control — outside of Skool. Members click links you share inside your community, exactly as they do today. The only difference is those links now carry behavioral signals we can act on.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What if I don't use GHL?</div>
+        <div class="faq-a">GHL is recommended because it handles the automated invitation sequences natively. If you use a different CRM or email tool, we can connect via webhook. The scoring engine and dashboard work independently of your email platform. During the audit call we confirm your setup before you commit to anything.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What happens if I cancel?</div>
+        <div class="faq-a">The system belongs to you. All Airtable bases, Zapier flows, GHL sequences, and dashboards live in your accounts. Cancel the subscription and the system keeps running — you just lose the monthly recalibration and support. No lock-in, no data held hostage, no exit fee.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Why not just hire a VA to do this manually?</div>
+        <div class="faq-a">A VA can send DMs. They can't build a behavioral scoring engine, track 6 signal types simultaneously across hundreds of members, or fire personalized invitations at the exact moment of peak intent. This is infrastructure — the same kind we've built for 17 years. It runs 24/7 and catches signals no human would catch at scale.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FINAL CTA ═══════════════════════════════════════════════ -->
+<div class="final-cta">
+  <div class="container">
+    <h2 class="serif">Every week without this system is another week your <em style="font-style:italic;color:var(--green)">warmest prospects go cold</em></h2>
+    <p>Book a free pipeline audit. We'll show you exactly who in your community is ready for your backend offer right now — and what it costs you every month to not know.</p>
+    <a href="#" class="cta-btn" style="font-size:18px;padding:20px 40px">Start Your Free 14-Day Trial <span class="arrow">→</span></a>
+    <p class="cta-note">No commitment. No credit card. First warm conversations within 7–10 days.</p>
+    <div class="scarcity" style="margin-top:24px">
+      <div class="dot"></div>
+      <p>Beta pricing closes at 20 clients — 6 spots remaining at $297/mo.</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Profitable Media, LLC — Since 2008</p>
+  <p style="margin-top:4px">profitablemedia.com</p>
+</div>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click',function(){
+    this.parentElement.classList.toggle('open');
+  });
+});
+</script>
+
+</body>
+</html>
