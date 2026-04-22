@@ -4,7 +4,7 @@ import { magicLink } from "better-auth/plugins";
 import { db } from "@/lib/db";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY!);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, { provider: "pg" }),
@@ -12,9 +12,8 @@ export const auth = betterAuth({
   plugins: [
     magicLink({
       sendMagicLink: async ({ email, url }) => {
-        if (!process.env.RESEND_API_KEY) {
+        if (!resend) {
           console.warn("No RESEND_API_KEY found, magic link to:", url);
-          // In development we could log the URL here
           return;
         }
         await resend.emails.send({

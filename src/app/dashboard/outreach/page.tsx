@@ -1,10 +1,9 @@
 import { db } from "@/lib/db";
 import { outreachLog, candidates, jobs } from "@/drizzle/schema";
-import { eq, isNotNull, asc } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 
 async function getFollowUps() {

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { auth } from './lib/auth'; // Ensure this uses a server-compatible getter for sessions
 
 export default async function middleware(req: NextRequest) {
   // BetterAuth provides a middleware matcher or session fetcher, 
