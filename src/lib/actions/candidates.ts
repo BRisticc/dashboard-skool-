@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { candidates, poachingCompanies } from "@/drizzle/schema";
+import { candidates } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 
 export async function getCandidates() {

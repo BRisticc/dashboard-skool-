@@ -1,8 +1,6 @@
-import { getJobById, getCandidatesForJob } from "@/lib/actions/pipeline";
 import { Badge } from "@/components/ui/badge";
 
-export default async function JobKanbanPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function JobPipelinePage() {
   
   // Fake simple fetch for demonstration
   // In real implementation this would fetch from drizzle actions

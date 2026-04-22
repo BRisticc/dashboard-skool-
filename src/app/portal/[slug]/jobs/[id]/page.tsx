@@ -1,5 +1,4 @@
 import { getClientVisibleCandidates } from "@/lib/actions/portal";
-import { Badge } from "@/components/ui/badge";
 import { 
   CheckCircle, 
   XCircle, 
@@ -24,7 +23,7 @@ export default async function PortalJobPage({ params }: { params: { slug: string
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {visibleCandidates.length === 0 ? (
           <div className="col-span-2 text-center p-12 bg-muted/30 rounded-lg text-muted-foreground">
-              No candidates are currently ready for your review. We'll notify you when new profiles are added.
+              No candidates are currently ready for your review. We&apos;ll notify you when new profiles are added.
           </div>
         ) : (
           visibleCandidates.map((c) => (

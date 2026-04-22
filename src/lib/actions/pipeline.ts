@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { pipelineStages, candidates, jobs } from "@/drizzle/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 export async function getJobById(jobId: string) {
   const [job] = await db.select().from(jobs).where(eq(jobs.id, jobId));
